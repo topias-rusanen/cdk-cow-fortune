@@ -1,14 +1,17 @@
-# Welcome to your CDK TypeScript project!
+# CDK Cow Fortunes
 
-This is a blank project for TypeScript development with CDK.
+This project includes a Docker image and an AWS CDK application to push cow fortunes to a specified Slack webhook.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+## How to run
 
-## Useful commands
+The docker image is bundled with the application as a CDK asset. The CDK application expects two context parameters to be provided:
 
- * `npm run build`   compile typescript to js
- * `npm run watch`   watch for changes and compile
- * `npm run test`    perform the jest unit tests
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk synth`       emits the synthesized CloudFormation template
+- `schedule`: A cron-style schedule with the following pattern `minute hour day month year`
+  - For example `0 12 * * *` would execute every day at noon
+- `slack-webhook-url`: The slack webhook URL where to post the cow fortune
+
+To deploy the application, run
+
+```
+cdk deploy CowFortuneStack -c 'schedule=<cron-schedule>' -c 'slack-webhook-url=<url>'
+```

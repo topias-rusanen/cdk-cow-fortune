@@ -1,0 +1,8 @@
+#! /bin/sh
+
+URL="$1"
+fortune | cowsay | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | sed -z 's/\n/\\n/g' | sed -e 's/^/{"text":"```/' -e 's/$/```"}/' > payload.json
+
+curl -s -XPOST -H 'Content-Type: application/json' "$URL" -d @payload.json
+
+rm payload.json
